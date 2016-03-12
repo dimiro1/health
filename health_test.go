@@ -72,3 +72,26 @@ func Test_Health_IsOutOfService(t *testing.T) {
 		t.Errorf("NewHealth().status == %s, want %s", h.status, outOfService)
 	}
 }
+
+func Test_Marshaling_Info(t *testing.T) {
+	h := NewHealth()
+	h.Up()
+	h.Info["test"] = "foo"
+	expectedJSON := `{"info":{"test":"foo"},"status":"UP"}`
+	actualJSON, _ := h.MarshalJSON()
+
+	if string(actualJSON) != expectedJSON {
+		t.Errorf("JSON == %s, want %s", actualJSON, expectedJSON)
+	}
+}
+
+func Test_Marshaling_Without_Info(t *testing.T) {
+	h := NewHealth()
+	h.Up()
+	expectedJSON := `{"status":"UP"}`
+	actualJSON, _ := h.MarshalJSON()
+
+	if string(actualJSON) != expectedJSON {
+		t.Errorf("JSON == %s, want %s", actualJSON, expectedJSON)
+	}
+}

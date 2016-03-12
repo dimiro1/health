@@ -61,28 +61,30 @@ If everything is ok the server must return the following json.
 
 ```json
 {
-    "Big Companies": {
-        "Google": {
+    "info": {
+        "Big Companies": {
+            "Google": {
+                "code": 200,
+                "status": "UP"
+            },
+            "Microsoft": {
+                "code": 200,
+                "status": "UP"
+            },
+            "Oracle": {
+                "code": 200,
+                "status": "UP"
+            },
+            "status": "UP"
+        },
+        "Go": {
             "code": 200,
             "status": "UP"
         },
-        "Microsoft": {
-            "code": 200,
-            "status": "UP"
-        },
-        "Oracle": {
-            "code": 200,
-            "status": "UP"
-        },
-        "status": "UP"
-    },
-    "Go": {
-        "code": 200,
-        "status": "UP"
-    },
-    "MySQL": {
-        "status": "UP",
-        "version": "10.1.9-MariaDB"
+        "MySQL": {
+            "status": "UP",
+            "version": "10.1.9-MariaDB"
+        }
     },
     "status": "UP"
 }
