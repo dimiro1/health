@@ -1,5 +1,9 @@
 package health
 
+import (
+	"errors"
+)
+
 // Checker is a interface used to provide an indication of application health.
 type Checker interface {
 	Check() Health
@@ -46,4 +50,38 @@ func (c CompositeChecker) Check() Health {
 	health.Info = healths
 
 	return health
+}
+
+// ErrInvalidCheck is returned when checking a check type
+// for validity
+var ErrInvalidCheck = errors.New("invalid check type")
+
+// ErrInvalidDBDriver is returned when checking a database
+// driver for validity
+var ErrInvalidDBDriver = errors.New("invalid db driver")
+
+// Checks is a slice of valid checks
+var Checks = []string{"db", "url"}
+
+// DBDriver is a slice of valid db drivers
+var DBDrivers = []string{"mysql", "postgres"}
+
+// ValidCheck makes sure the given check is valid
+func ValidCheck(check string) bool {
+	for _, i := range Checks {
+		if i == check {
+			return true
+		}
+	}
+	return false
+}
+
+// ValidDBDriver makes sure the given driver is valid
+func ValidDBDriver(driver string) bool {
+	for _, i := range DBDrivers {
+		if i == driver {
+			return true
+		}
+	}
+	return false
 }
