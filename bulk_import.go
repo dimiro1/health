@@ -82,3 +82,7 @@ func (b *BulkChecks) Validate() error {
 	}
 	return nil
 }
+
+func (b *BulkChecks) Add() error {
+	return nil
+}
