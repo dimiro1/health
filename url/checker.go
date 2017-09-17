@@ -38,19 +38,15 @@ func (u Checker) Check() health.Health {
 
 	health := health.NewHealth()
 
-	resp, err = client.Head(u.URL)
+	resp, err = client.Get(u.URL)
 
 	if resp != nil {
 		defer resp.Body.Close()
 	}
 
 	if err != nil {
-		// retry with GET request to the given URL
-		resp, err = client.Get(u.URL)
-		if err != nil {
-			health.Down().AddInfo("code", http.StatusBadRequest)
-			return health
-		}
+		health.Down().AddInfo("code", http.StatusBadRequest)
+		return health
 	}
 
 	if resp.StatusCode == http.StatusOK {
