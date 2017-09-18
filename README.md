@@ -1,5 +1,5 @@
-This is forking version, I change on url check from HEAD into GET request
-if you need original version please check https://github.com/dimiro1/health
+This is forking version, I change on url check from HEAD into GET request.
+If you need original version please check https://github.com/dimiro1/health
 
 # Go Health Check
 
