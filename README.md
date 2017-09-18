@@ -145,7 +145,7 @@ I took a lot of ideas from the [spring framework](http://spring.io/).
 This package is a go getable package.
 
 ```sh
-$ go get github.com/dimiro1/health
+$ go get github.com/dhiemaz/health
 ```
 
 # API
