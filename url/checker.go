@@ -23,7 +23,7 @@ func NewCheckerWithTimeout(url string, timeout time.Duration) Checker {
 	return Checker{URL: url, Timeout: timeout}
 }
 
-// Check makes a HEAD request to the given URL
+// Check makes a GET request to the given URL
 // If the request returns something different than StatusOK,
 // The status is set to StatusBadRequest and the URL is considered Down
 func (u Checker) Check() health.Health {
