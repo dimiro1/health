@@ -11,6 +11,8 @@ type goRedis struct {
 	client *redis.Client
 }
 
+// NewGoRedis returns a Redis implementation that gets the version of
+// github.com/go-redis/redis client
 func NewGoRedis(client *redis.Client) Redis {
 	return goRedis{
 		client: client,
