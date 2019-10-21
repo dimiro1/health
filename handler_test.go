@@ -4,19 +4,21 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
+	"reflect"
 	"strings"
 	"testing"
 )
 
 func Test_NewHandler(t *testing.T) {
-	// How can I test a function that returns a Struct ?
-	// A better Idea? Please tell me!
 	h := NewHandler()
-	handler := &h
+	ValueIface := reflect.ValueOf(h)
 
-	if handler == nil {
-		t.Error("&NewHandler() == nil, wants !nil")
+	if ValueIface.Type().Kind() == reflect.Struct {
+		return
 	}
+
+	t.Error("NewHandler() !=  handle struct")
+
 }
 
 func Test_Handler_ServeHTTP_Down(t *testing.T) {
