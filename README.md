@@ -8,6 +8,10 @@ Try browsing [the code on Sourcegraph](https://sourcegraph.com/github.com/dimiro
 
 An easy to use, extensible health check library for Go applications.
 
+# New package
+
+Use `https://github.com/dimiro1/healthz` for a basic health check implementation.
+
 **Table of Contents**
 
 - [Example](#example)
