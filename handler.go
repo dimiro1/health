@@ -20,7 +20,7 @@ func NewHandler() Handler {
 func (h Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("Content-Type", "application/json")
 
-	health := h.CompositeChecker.Check()
+	health := h.CompositeChecker.Check(r.Context())
 
 	if health.IsDown() {
 		w.WriteHeader(http.StatusServiceUnavailable)

@@ -7,25 +7,9 @@ import (
 	"net/http/httptest"
 	"strings"
 	"testing"
-	"time"
 
 	"github.com/dimiro1/health"
 )
-
-func Test_NewCheckerWithTimeout(t *testing.T) {
-	timeout := 2 * time.Second
-	url := "http://www.google.com/"
-
-	c := NewCheckerWithTimeout(url, timeout)
-
-	if c.Timeout != timeout {
-		t.Errorf("NewCheckerWithTimeout().Timeout == %d, wants %d", c.Timeout, timeout)
-	}
-
-	if c.URL != url {
-		t.Errorf("NewCheckerWithTimeout().URL == %s, wants %s", c.URL, url)
-	}
-}
 
 func Test_Checker_Check_Up(t *testing.T) {
 	mux := http.NewServeMux()

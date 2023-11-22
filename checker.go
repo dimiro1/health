@@ -1,20 +1,21 @@
 package health
 
 import (
+	"context"
 	"sync"
 )
 
 // Checker is a interface used to provide an indication of application health.
 type Checker interface {
-	Check() Health
+	Check(ctx context.Context) Health
 }
 
 // CheckerFunc is an adapter to allow the use of
 // ordinary go functions as Checkers.
-type CheckerFunc func() Health
+type CheckerFunc func(ctx context.Context) Health
 
-func (f CheckerFunc) Check() Health {
-	return f()
+func (f CheckerFunc) Check(ctx context.Context) Health {
+	return f(ctx)
 }
 
 type checkerItem struct {
@@ -51,7 +52,7 @@ func (c *CompositeChecker) AddChecker(name string, checker Checker) {
 
 // Check returns the combination of all checkers added
 // if some check is not up, the combined is marked as down
-func (c CompositeChecker) Check() Health {
+func (c CompositeChecker) Check(ctx context.Context) Health {
 	health := NewHealth()
 	health.Up()
 
@@ -67,7 +68,7 @@ func (c CompositeChecker) Check() Health {
 		wg.Add(1)
 		item := item
 		go func() {
-			ch <- state{h: item.checker.Check(), name: item.name}
+			ch <- state{h: item.checker.Check(ctx), name: item.name}
 			wg.Done()
 		}()
 	}

@@ -1,10 +1,13 @@
 package health
 
-import "testing"
+import (
+	"context"
+	"testing"
+)
 
 type outOfServiceTestChecker struct{}
 
-func (c outOfServiceTestChecker) Check() Health {
+func (c outOfServiceTestChecker) Check(ctx context.Context) Health {
 	health := NewHealth()
 	health.OutOfService()
 
@@ -13,7 +16,7 @@ func (c outOfServiceTestChecker) Check() Health {
 
 type upTestChecker struct{}
 
-func (c upTestChecker) Check() Health {
+func (c upTestChecker) Check(ctx context.Context) Health {
 	health := NewHealth()
 	health.Up()
 
@@ -22,7 +25,7 @@ func (c upTestChecker) Check() Health {
 
 type downTestChecker struct{}
 
-func (c downTestChecker) Check() Health {
+func (c downTestChecker) Check(ctx context.Context) Health {
 	health := NewHealth()
 	health.Down()
 
@@ -47,7 +50,7 @@ func Test_CompositeChecker_Check_Up(t *testing.T) {
 	c := NewCompositeChecker()
 	c.AddChecker("upTestChecker", upTestChecker{})
 
-	health := c.Check()
+	health := c.Check(context.Background())
 
 	if !health.IsUp() {
 		t.Errorf("health.IsUp() == %t, wants %t", health.IsUp(), true)
@@ -58,7 +61,7 @@ func Test_CompositeChecker_Check_Down(t *testing.T) {
 	c := NewCompositeChecker()
 	c.AddChecker("downTestChecker", downTestChecker{})
 
-	health := c.Check()
+	health := c.Check(context.Background())
 
 	if !health.IsDown() {
 		t.Errorf("health.IsDown() == %t, wants %t", health.IsDown(), true)
@@ -69,7 +72,7 @@ func Test_CompositeChecker_Check_OutOfService(t *testing.T) {
 	c := NewCompositeChecker()
 	c.AddChecker("outOfServiceTestChecker", outOfServiceTestChecker{})
 
-	health := c.Check()
+	health := c.Check(context.Background())
 
 	if !health.IsDown() {
 		t.Errorf("health.IsDown() == %t, wants %t", health.IsDown(), true)
@@ -81,7 +84,7 @@ func Test_CompositeChecker_Check_Down_combined(t *testing.T) {
 	c.AddChecker("downTestChecker", downTestChecker{})
 	c.AddChecker("upTestChecker", upTestChecker{})
 
-	health := c.Check()
+	health := c.Check(context.Background())
 
 	if !health.IsDown() {
 		t.Errorf("health.IsDown() == %t, wants %t", health.IsDown(), true)
@@ -93,7 +96,7 @@ func Test_CompositeChecker_Check_Up_combined(t *testing.T) {
 	c.AddChecker("upTestChecker", upTestChecker{})
 	c.AddChecker("upTestChecker", upTestChecker{})
 
-	health := c.Check()
+	health := c.Check(context.Background())
 
 	if !health.IsUp() {
 		t.Errorf("health.IsUp() == %t, wants %t", health.IsUp(), true)
@@ -125,14 +128,14 @@ func Test_CompositeChecker_AddInfo_null_map(t *testing.T) {
 }
 
 func TestCheckerFunc_Check(t *testing.T) {
-	f := CheckerFunc(func() Health {
+	f := CheckerFunc(func(ctx context.Context) Health {
 		h := NewHealth()
 		h.Up()
 
 		return h
 	})
 
-	h := f.Check()
+	h := f.Check(context.Background())
 
 	if !h.IsUp() {
 		t.Errorf("h.IsUp() == %t, wants %t", h.IsUp(), true)
