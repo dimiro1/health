@@ -1,6 +1,6 @@
 module github.com/dimiro1/health
 
-go 1.11
+go 1.13
 
 require (
 	github.com/DATA-DOG/go-sqlmock v1.3.3
